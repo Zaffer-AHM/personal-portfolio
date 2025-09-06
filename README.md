@@ -1,2 +1,3 @@
 # personal-portfolio
-uses astro,
+uses astro + tailwind css
+will add more details once im done developing the skeleton
