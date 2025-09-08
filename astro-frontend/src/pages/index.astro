@@ -1,0 +1,21 @@
+---
+import Cube from "../components/cube.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zaffer Portfolio</title>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+  </head>
+  <body class="bg-gray-950 flex items-center justify-center min-h-screen">
+    <Cube />
+    <script type="module">
+      import { spinCube } from "./src/scripts/cube-animation.js";
+      spinCube(); // Spins the cube automatically
+    </script>
+  </body>
+</html>

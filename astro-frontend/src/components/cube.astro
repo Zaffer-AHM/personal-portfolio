@@ -1,0 +1,61 @@
+<div class="scene">
+  <div class="cube">
+    <div class="face front"></div>
+    <div class="face back"></div>
+    <div class="face right"></div>
+    <div class="face left"></div>
+    <div class="face top"></div>
+    <div class="face bottom"></div>
+  </div>
+</div>
+
+<style>
+.scene {
+  width: 200px;
+  height: 200px;
+  perspective: 800px;
+  margin: 100px auto;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-20deg) rotateY(20deg);
+}
+
+.face {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+  background: rgba(246, 59, 59, 0.219); /* Tailwind blue-500 */
+  border: 2px solid white;
+}
+
+.front  { transform: rotateY(0deg) translateZ(100px); }
+.back   { transform: rotateY(180deg) translateZ(100px); }
+.right  { transform: rotateY(90deg) translateZ(100px); }
+.left   { transform: rotateY(-90deg) translateZ(100px); }
+.top    { transform: rotateX(90deg) translateZ(100px); }
+.bottom { transform: rotateX(-90deg) translateZ(100px); }
+</style>
+
+<script type="module">
+  import { gsap } from "gsap";
+
+  const cube = document.querySelector(".cube");
+  gsap.to(cube, {
+    rotateY: "+=360",
+    rotateX: "+=360",
+    duration: 10,
+    repeat: -1,
+    ease: "linear"
+  });
+</script>
