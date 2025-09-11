@@ -9,10 +9,17 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/react": "^4.3.1",
     "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/vite": "^4.1.13",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
     "astro": "^5.13.5",
     "gsap": "^3.13.0",
-    "tailwindcss": "^4.1.13"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "simplex-noise": "^4.0.3",
+    "tailwindcss": "^4.1.13",
+    "three": "^0.180.0"
   }
 }
