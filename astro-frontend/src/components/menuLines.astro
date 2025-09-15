@@ -1,28 +1,37 @@
-<canvas id="topology-canvas" class="topology-canvas"></canvas>
+<canvas id="menu-canvas" class="menu-canvas"></canvas>
 
 <style>
-  .topology-canvas {
+  .menu-canvas {
     position: fixed;
     inset: 0;
     width: 100vw;
     height: 100vh;
     display: block;
-    z-index: -10;
+    z-index: -1;
     pointer-events: none;
-    background: linear-gradient(to bottom, #ffff, #b6433c); /* background */
+    background: transparent;
+
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out; /* handles both fade-in & fade-out */
+  }
+
+  .menu-canvas.visible {
+    opacity: 1;
   }
 </style>
 
 <script type="module">
   import { createNoise3D } from "https://cdn.jsdelivr.net/npm/simplex-noise@4.0.1/dist/esm/simplex-noise.js";
 
-  const canvas = document.getElementById("topology-canvas");
+  const canvas = document.getElementById("menu-canvas");
   const ctx = canvas.getContext("2d");
   const noise3D = createNoise3D();
 
+  let running = false;
+  let frameId;
   let time = 0;
-  let mouse = { x: -9999, y: -9999 };
   let size = { w: window.innerWidth, h: window.innerHeight };
+  let mouse = { x: -9999, y: -9999 };
 
   function resizeCanvas() {
     const dpr = window.devicePixelRatio || 1;
@@ -30,22 +39,20 @@
     size.h = window.innerHeight;
     canvas.width = size.w * dpr;
     canvas.height = size.h * dpr;
-    canvas.style.width = size.w + "px";
-    canvas.style.height = size.h + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
 
   function draw() {
+    if (!running) return;
     ctx.clearRect(0, 0, size.w, size.h);
 
-    const lineGap = 60; // spacing between contour lines
+    const lineGap = 60;
     const lineCount = Math.ceil(size.h / lineGap) + 20;
 
     ctx.lineWidth = 0.2;
-    ctx.strokeStyle = "#9f2f31"; // cream topo lines
-    ctx.shadowColor = "rgba(42, 49, 72, 0.1)";
-    ctx.shadowBlur = 30;
+    ctx.strokeStyle = "#ffff";
 
     for (let i = 0; i < lineCount; i++) {
       const yBase = i * lineGap;
@@ -71,11 +78,35 @@
       ctx.stroke();
     }
 
-    time += 0.01; // smooth animation
-    requestAnimationFrame(draw);
+    time += 0.01;
+    frameId = requestAnimationFrame(draw);
   }
 
-  window.addEventListener("resize", resizeCanvas);
+  // Control functions
+  window.startMenuLines = () => {
+    if (!running) {
+      running = true;
+      setTimeout(() => {
+        canvas.classList.add("visible");
+        draw();
+      }, 400); // wait for menu drop first
+    }
+  };
+
+  window.stopMenuLines = () => {
+    if (running) {
+      running = false;
+      // fade out
+      canvas.classList.remove("visible");
+      // wait for fade-out transition before clearing
+      setTimeout(() => {
+        cancelAnimationFrame(frameId);
+        ctx.clearRect(0, 0, size.w, size.h);
+      }, 600); // matches CSS transition duration
+    }
+  };
+
+  // Mouse listeners
   window.addEventListener("mousemove", (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
@@ -84,6 +115,4 @@
     mouse.x = -9999;
     mouse.y = -9999;
   });
-
-  draw();
 </script>

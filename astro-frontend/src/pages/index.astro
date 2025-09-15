@@ -1,6 +1,7 @@
 ---
 import HorizontalLines from "../components/horizontalLines.astro";
 import Scene from "../components/scene.jsx";
+import Menu from "../components/menu.astro";
 ---
 
 <html lang="en">
@@ -11,7 +12,11 @@ import Scene from "../components/scene.jsx";
   </head>
   <body class="bg-gray-950 m-0 p-0 w-screen h-screen overflow-hidden relative">
     <HorizontalLines />
-    <Scene client:load />
+    <Menu />
+    <div>
+      <Scene client:load />
+    </div>
+    
   </body>
 </html>
 

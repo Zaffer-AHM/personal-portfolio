@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { gsap } from "gsap";
 import MainCube from "./mainCube.jsx";
-import MiniCubes from "./miniCubes.jsx";
 
 export default function Scene() {
   const containerRef = useRef();
@@ -11,9 +10,8 @@ export default function Scene() {
   useEffect(() => {
     const container = containerRef.current;
 
-    // Cube Sizes
-    const MAIN_CUBE_SCALE = 2; // default 1
-    const MINI_CUBE_SCALE = 2; // default 1
+    // Cube settings
+    const MAIN_CUBE_SCALE = 2;
 
     // Scene & Camera
     const scene = new THREE.Scene();
@@ -33,21 +31,19 @@ export default function Scene() {
     container.appendChild(renderer.domElement);
 
     // Lights
-    scene.add(new THREE.AmbientLight(0xffffff, 1));
-    const pointLight = new THREE.PointLight(0xffffff, 1.5);
-    pointLight.position.set(10, 10, 10);
-    scene.add(pointLight);
+    scene.add(new THREE.AmbientLight("#ffffff", 1));
 
     // Main Cube
     const mainCube = MainCube();
     mainCube.scale.set(MAIN_CUBE_SCALE, MAIN_CUBE_SCALE, MAIN_CUBE_SCALE);
     scene.add(mainCube);
 
+    // Cube outline (glow effect)
     const edges = new THREE.EdgesGeometry(mainCube.geometry);
     const outline = new THREE.LineSegments(
       edges,
       new THREE.LineBasicMaterial({
-        color: 0x00ffcc,
+        color: "#ffffff",
         transparent: true,
         opacity: 0.7,
         blending: THREE.AdditiveBlending,
@@ -57,28 +53,7 @@ export default function Scene() {
     outline.scale.set(1.2, 1.2, 1.2);
     mainCube.add(outline);
 
-    // Orbiting Mini Cubes
-    const orbitGroup = new THREE.Group();
-    scene.add(orbitGroup);
-    const miniCubes = MiniCubes(8, 3);
-    miniCubes.forEach((cube) => {
-      cube.scale.set(MINI_CUBE_SCALE, MINI_CUBE_SCALE, MINI_CUBE_SCALE);
-      orbitGroup.add(cube);
-    });
-
-    const orbitGroup2 = new THREE.Group();
-    scene.add(orbitGroup2);
-    const miniCubes2 = MiniCubes(8, 2);
-    miniCubes2.forEach((cube) => {
-      cube.scale.set(
-        MINI_CUBE_SCALE * 0.8,
-        MINI_CUBE_SCALE * 0.8,
-        MINI_CUBE_SCALE * 0.8
-      );
-      orbitGroup2.add(cube);
-    });
-
-    // Main Text
+    // Main text
     const mainText = "ZAFFER AHMED";
     const canvasWidth = 2048;
     const canvasHeight = 512;
@@ -87,61 +62,50 @@ export default function Scene() {
     mainTextCanvas.height = canvasHeight;
     const mainCtx = mainTextCanvas.getContext("2d");
     mainCtx.fillStyle = "white";
-    mainCtx.font = "200px Impact";
+    mainCtx.font = `200px Impact`;
     mainCtx.textAlign = "center";
     mainCtx.textBaseline = "middle";
     mainCtx.fillText(mainText, canvasWidth / 2, canvasHeight / 2);
 
     const mainTextTexture = new THREE.CanvasTexture(mainTextCanvas);
-    mainTextTexture.needsUpdate = true;
-
-    const planeWidth = 20;
-    const planeHeight = (canvasHeight / canvasWidth) * planeWidth;
     const mainTextMaterial = new THREE.MeshBasicMaterial({
       map: mainTextTexture,
       transparent: true,
       opacity: 0,
       side: THREE.DoubleSide,
     });
-    const mainTextMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(planeWidth, planeHeight),
+    let mainTextMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(20, (canvasHeight / canvasWidth) * 20),
       mainTextMaterial
     );
     mainTextMesh.position.z = 6;
     scene.add(mainTextMesh);
     gsap.to(mainTextMaterial, { opacity: 1, duration: 2 });
 
-    // Second Text
-    const messages = ["full-stack dev.", "wanna-be game dev.", "software engineer."];
-    let currentMessage = 1;
+    // Subtext
+    const messages = ["full-stack dev.", "java user.", "software engineer.", "click top right to navigate faster."];
+    let currentMessage = 0;
 
     const subTextCanvas = document.createElement("canvas");
     subTextCanvas.width = canvasWidth;
-    subTextCanvas.height = canvasHeight / 2; // smaller canvas
+    subTextCanvas.height = canvasHeight / 2;
     const subCtx = subTextCanvas.getContext("2d");
 
     const subTextTexture = new THREE.CanvasTexture(subTextCanvas);
-    subTextTexture.needsUpdate = true;
-
     const subTextMaterial = new THREE.MeshBasicMaterial({
       map: subTextTexture,
       transparent: true,
       opacity: 0,
       side: THREE.DoubleSide,
     });
-
-    const subPlaneWidth = planeWidth * 0.7; // smaller than main text
-    const subPlaneHeight =
-      (subTextCanvas.height / subTextCanvas.width) * subPlaneWidth;
-    const subTextMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(subPlaneWidth, subPlaneHeight),
+    let subTextMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(14, (subTextCanvas.height / subTextCanvas.width) * 14),
       subTextMaterial
     );
     subTextMesh.position.z = 5;
-    subTextMesh.position.y = -planeHeight / 4; // below main text
+    subTextMesh.position.y = -(canvasHeight / canvasWidth) * 20 / 4;
     scene.add(subTextMesh);
 
-    // Function to update second text
     const updateSubText = () => {
       subCtx.clearRect(0, 0, subTextCanvas.width, subTextCanvas.height);
       subCtx.fillStyle = "white";
@@ -171,9 +135,26 @@ export default function Scene() {
     };
 
     updateSubText();
-    setInterval(updateSubText, 6000); // cycle every 3 seconds
+    setInterval(updateSubText, 6000);
 
-    // interactive animations
+    // Responsive text planes
+    const resizeTextMeshes = () => {
+      const planeWidth = window.innerWidth / 100;
+      const planeHeight = (canvasHeight / canvasWidth) * planeWidth;
+      mainTextMesh.geometry.dispose();
+      mainTextMesh.geometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
+
+      const subPlaneWidth = planeWidth * 0.7;
+      const subPlaneHeight = (subTextCanvas.height / subTextCanvas.width) * subPlaneWidth;
+      subTextMesh.geometry.dispose();
+      subTextMesh.geometry = new THREE.PlaneGeometry(subPlaneWidth, subPlaneHeight);
+
+      subTextMesh.position.y = -planeHeight / 4;
+    };
+
+    resizeTextMeshes();
+
+    // Mouse hover interaction
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
     window.addEventListener("mousemove", (e) => {
@@ -185,99 +166,54 @@ export default function Scene() {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Rotate main cube
+      // Rotate cube
       mainCube.rotation.x += 0.01;
       mainCube.rotation.y += 0.01;
-
-      // Orbit group rotation
-      orbitGroup.rotation.x += 0.00002;
-      orbitGroup.rotation.y += 0.00002;
-
-      // Second orbit (opposite direction)
-      orbitGroup2.rotation.x -= 0.00015;
-      orbitGroup2.rotation.y -= 0.00015;
-
-      // Mini cubes orbit dynamically
-      miniCubes.forEach((cube, i) => {
-        const angle =
-          Date.now() * 0.001 + i * ((Math.PI * 2) / miniCubes.length);
-        const radius = 8;
-        cube.position.x = Math.cos(angle) * radius;
-        cube.position.y = Math.sin(angle) * radius;
-        cube.rotation.x += 0.02;
-        cube.rotation.y += 0.02;
-      });
-
-      miniCubes2.forEach((cube, i) => {
-        const angle =
-          -Date.now() * 0.001 + i * ((Math.PI * 3) / miniCubes2.length); // negative for opposite
-        const radius = 10; // slightly further out
-        cube.position.x = Math.cos(angle) * radius;
-        cube.position.y = Math.sin(angle) * radius;
-        cube.rotation.x += 0.02;
-        cube.rotation.y += 0.02;
-      });
-
-      // Raycasting for hover interactions
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects([mainCube, ...miniCubes]);
-
-      // Reset cubes
-      miniCubes.forEach((cube) => {
-        gsap.to(cube.scale, {
-          x: MINI_CUBE_SCALE,
-          y: MINI_CUBE_SCALE,
-          z: MINI_CUBE_SCALE,
-          duration: 0.1,
-        });
-        cube.material.emissive = new THREE.Color(0x000000);
-      });
-      gsap.to(mainCube.scale, {
-        x: MAIN_CUBE_SCALE,
-        y: MAIN_CUBE_SCALE,
-        z: MAIN_CUBE_SCALE,
-        duration: 0.1,
-      });
-      mainCube.material.emissive = new THREE.Color(0x000000);
 
       // Pulse outline
       const outlineScale = 1.2 + Math.sin(Date.now() * 0.005) * 0.03;
       outline.scale.set(outlineScale, outlineScale, outlineScale);
 
-      // Apply hover effects
-      intersects.forEach((hit) => {
-        const obj = hit.object;
-        if (miniCubes.includes(obj)) {
-          gsap.to(obj.scale, {
-            x: MINI_CUBE_SCALE * 1.4,
-            y: MINI_CUBE_SCALE * 1.4,
-            z: MINI_CUBE_SCALE * 1.4,
-            duration: 0.3,
-          });
-          obj.material.emissive = new THREE.Color(0xff3366);
-          obj.material.emissiveIntensity = 0.7;
-        } else if (obj === mainCube) {
-          gsap.to(mainCube.scale, {
-            x: MAIN_CUBE_SCALE * 1.3,
-            y: MAIN_CUBE_SCALE * 1.3,
-            z: MAIN_CUBE_SCALE * 1.3,
-            duration: 0.3,
-          });
-          mainCube.material.emissive = new THREE.Color(0xffffff);
-          mainCube.material.emissiveIntensity = 0.7;
-          gsap.to(outline.scale, { x: 1.35, y: 1.35, z: 1.35, duration: 0.3 });
-        }
-      });
+      // Raycast hover effect
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObject(mainCube);
+
+      if (intersects.length > 0) {
+        gsap.to(mainCube.scale, {
+          x: MAIN_CUBE_SCALE * 1.3,
+          y: MAIN_CUBE_SCALE * 1.3,
+          z: MAIN_CUBE_SCALE * 1.3,
+          duration: 0.3,
+        });
+        mainCube.material.emissive = new THREE.Color("#222221");
+        mainCube.material.emissiveIntensity = 0.7;
+        gsap.to(outline.scale, { x: 1.35, y: 1.35, z: 1.35, duration: 0.3 });
+      } else {
+        gsap.to(mainCube.scale, {
+          x: MAIN_CUBE_SCALE,
+          y: MAIN_CUBE_SCALE,
+          z: MAIN_CUBE_SCALE,
+          duration: 0.3,
+        });
+        mainCube.material.emissive = new THREE.Color("#000000");
+        gsap.to(outline.scale, {
+          x: outlineScale,
+          y: outlineScale,
+          z: outlineScale,
+          duration: 0.3,
+        });
+      }
 
       renderer.render(scene, camera);
     };
     animate();
 
-    // Handle window resize
+    // Responsive text
     window.addEventListener("resize", () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+      resizeTextMeshes();
     });
   }, []);
 

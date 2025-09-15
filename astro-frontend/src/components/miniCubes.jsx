@@ -4,7 +4,7 @@ export default function MiniCubes(count = 6, radius = 3) {
   const cubes = [];
   for (let i = 0; i < count; i++) {
     const geometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
-    const material = new THREE.MeshStandardMaterial({ color: "#ff9633ff" });
+    const material = new THREE.MeshStandardMaterial({color:"#000000"});
     const cube = new THREE.Mesh(geometry, material);
 
     const angle = (i / count) * Math.PI * 2;
