@@ -1,0 +1,27 @@
+<style>
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: -100%; /* hidden offscreen left */
+    width: 100dvw;
+    height: 100dvh;
+    background: rgb(255, 220, 150);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: left 0.6s ease-in-out;
+    z-index: 50;
+  }
+  .overlay.show {
+    left: 0; /* slide in from left */
+  }
+  .test {
+    font-size: 8rem;
+    font-family: Impact, sans-serif;
+    color: black;
+    text-align: center;
+  }
+</style>
+
+<div class="test">CONTACT TEST</div>

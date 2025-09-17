@@ -1,0 +1,27 @@
+<style>
+  .overlay {
+    position: fixed;
+    top: 0;
+    right: -100%; /* hidden offscreen right */
+    width: 100dvw;
+    height: 100dvh;
+    background: rgb(255, 180, 200);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: right 0.6s ease-in-out;
+    z-index: 50;
+  }
+  .overlay.show {
+    right: 0; /* slide in from right */
+  }
+  .test {
+    font-size: 8rem;
+    font-family: Impact, sans-serif;
+    color: black;
+    text-align: center;
+  }
+</style>
+
+<div class="test">ARTWORK TEST</div>
