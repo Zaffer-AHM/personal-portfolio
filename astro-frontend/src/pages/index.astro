@@ -1,6 +1,6 @@
 ---
-import HorizontalLines from "../components/horizontalLines.astro";
-import Scene from "../components/scene.jsx";
+import HorizontalLines from "../components/toplogyLines/horizontalLines.astro";
+import Scene from "../components/animationScripts/scene.jsx";
 import Menu from "../components/menu.astro";
 import About from "../components/info/about.astro";
 import Projects from "../components/info/projects.astro";
@@ -19,16 +19,16 @@ import Contact from "../components/info/contact.astro";
     <Menu />
 
     <main>
-      <section id="about" class="content-section slide-top">
+      <section id="about" class="content-section slide-bottom">
         <About />
       </section>
       <section id="projects" class="content-section slide-bottom">
         <Projects />
       </section>
-      <section id="artwork" class="content-section slide-right">
+      <section id="artwork" class="content-section slide-bottom">
         <Artwork />
       </section>
-      <section id="contact" class="content-section slide-left">
+      <section id="contact" class="content-section slide-bottom">
         <Contact />
       </section>
 
@@ -43,6 +43,7 @@ import Contact from "../components/info/contact.astro";
     body {
       overflow: hidden;
     }
+
     .content-section {
       transform: translateX(-100%);
       opacity: 0;
@@ -55,11 +56,10 @@ import Contact from "../components/info/contact.astro";
       display: flex;
       justify-content: center;
       align-items: center;
-      transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
+      transition: transform 0.6s ease;
       z-index: 40;
-      background: white; /* optional */
+      background: rgb(250, 250, 250);
+      overflow: hidden; /* default: no scroll */
     }
 
     .content-section.show {
@@ -68,62 +68,49 @@ import Contact from "../components/info/contact.astro";
       pointer-events: auto;
     }
 
-    .slide-top {
-      transform: translateY(-100%);
-      opacity: 0;
-      transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
-    }
-    .slide-top.show {
-      transform: translateY(0);
-      opacity: 1;
+    /* specifically for Projects section */
+    #projects.show {
+      overflow-y: auto;
     }
 
     .slide-bottom {
       transform: translateY(100%);
       opacity: 0;
       transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
+        transform 1s ease,
+        opacity 1s ease;
     }
+
     .slide-bottom.show {
       transform: translateY(0);
       opacity: 1;
     }
 
-    .slide-right {
-      transform: translateX(100%);
-      opacity: 0;
-      transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
-    }
-    .slide-right.show {
-      transform: translateX(0);
-      opacity: 1;
-    }
-
-    .slide-left {
-      transform: translateX(-100%);
-      opacity: 0;
-      transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
-    }
-    .slide-left.show {
-      transform: translateX(0);
-      opacity: 1;
+    .slide-bottom.hide {
+      transform: translateY(-100%); /* exit upwards */
+      transition: transform 1s ease;
     }
   </style>
 
+  <script type="module" src="/src/scripts/lenis.js"></script>
   <script type="module">
     const sections = document.querySelectorAll(".content-section");
     const buttons = document.querySelectorAll(".menu-link");
     const overlay = document.getElementById("overlay");
 
     function hideAllSections() {
-      sections.forEach((sec) => sec.classList.remove("show"));
+      sections.forEach((sec) => {
+        if (sec.classList.contains("show")) {
+          sec.classList.remove("show");
+          sec.classList.add("hide"); // trigger exit animation
+          // after animation ends, reset
+          sec.addEventListener(
+            "transitionend",
+            () => sec.classList.remove("hide"),
+            { once: true }
+          );
+        }
+      });
     }
 
     buttons.forEach((btn) => {

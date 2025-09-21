@@ -1,5 +1,5 @@
 ---
-import MenuLines from "./menuLines.astro";
+import MenuLines from "../components/toplogyLines/menuLines.astro";
 ---
 
 <style>
@@ -38,11 +38,13 @@ import MenuLines from "./menuLines.astro";
     align-items: center;
     flex-direction: column;
     transition: top 0.6s ease-in-out;
+    opacity: 1s ease;
     z-index: 100;
   }
 
   .overlay.show {
     top: 0;
+    opacity: 1;
   }
 
   /* Top-left X button */
@@ -97,8 +99,8 @@ import MenuLines from "./menuLines.astro";
   const overlay = document.getElementById("overlay");
   const btn = document.getElementById("menuBtn");
   const overlayClose = document.getElementById("overlayClose");
-
-  const sections = document.querySelectorAll(".content-section"); // your index.astro sections
+  const sections = document.querySelectorAll(".content-section"); // index.astro sections
+  const menuLinks = document.querySelectorAll(".menu-link");
 
   function toggleOverlay() {
     overlay.classList.toggle("show");
@@ -115,9 +117,16 @@ import MenuLines from "./menuLines.astro";
     window.stopMenuLines?.();
 
     // Hide all content sections
-    sections.forEach(sec => sec.classList.remove("show"));
+    sections.forEach((sec) => sec.classList.remove("show"));
   }
 
   btn.addEventListener("click", toggleOverlay);
   overlayClose.addEventListener("click", closeAll);
+
+  menuLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      overlay.classList.remove("show");
+      window.stopMenuLines?.();
+    });
+  });
 </script>
