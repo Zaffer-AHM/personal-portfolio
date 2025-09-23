@@ -1,0 +1,53 @@
+---
+--- 
+
+<div id="page-transition" class="page-transition">
+  <slot />
+</div>
+
+<style>
+  .page-transition {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .page-transition.show {
+    opacity: 1;
+  }
+
+  .page-transition.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const wrapper = document.getElementById("page-transition");
+
+    // Fade in on page load
+    requestAnimationFrame(() => wrapper.classList.add("show"));
+
+    // Delegate clicks on all internal <a> links
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest("a");
+      if (!link) return;
+
+      const href = link.getAttribute("href");
+
+      // Ignore empty, hash links, or external links
+      if (!href || href.startsWith("#") || href.startsWith("http")) return;
+
+      e.preventDefault();
+
+      // Start fade-out
+      wrapper.classList.remove("show");
+      wrapper.classList.add("fade-out");
+
+      // Navigate after fade
+      setTimeout(() => {
+        window.location.href = href;
+      }, 300); // matches transition duration
+    });
+  });
+</script>

@@ -1,0 +1,128 @@
+---
+import ProjectLines from "../components/toplogyLines/projectLines.astro";
+import BaseLayout from "../layouts/baseLayout.astro";
+import "../styles/components/projectsMain.css";
+
+const projects = [
+  {
+    year: 2025,
+    title: "IEC Checklist - File Management System",
+    description:
+      "Built a modular, scalable web tool with Angular, Java, Spring Boot, and PostgreSQL that allows admins to rename, move, upload, and delete .docx files, integrates PDF previews while preserving original file integrity, implements secure role-based authentication, and improves data access speed by 25% through optimized Java APIs.",
+    img: "/images/test.jpg",
+    tags: ["Angular", "Java", "Springboot", "PostgreSQL", "LibreOffice"],
+  },
+  {
+    year: 2025,
+    title: "Parts Manual Web Tool",
+    description: "Developed a reliable, high-availability Angular and Java web tool with Spring Boot and PostgreSQL for querying parts by model number, handling 1M+ records efficiently, optimizing queries to reduce response times by 30%, and deploying builds via Maven/Gradle.",
+    img: "/images/test.jpg",
+    tags: ["Angular", "Java", "Springboot", "PostgreSQL"],
+  },
+  {
+    year: 2025,
+    title: "CCG Prediction Tool",
+    description: "Created a C# and SQL Server tool that calculates Koax Heating/Cooling conditions, displays PH diagrams, integrates PlateHX calculation functionality, and manages backend data efficiently in SSMS.",
+    img: "/images/test.jpg",
+    tags: ["C#", "SQL Server Management Studio"],
+  },
+  {
+    year: 2025,
+    title: "A2L Calculator",
+    description:
+      "Converted Excel-based refrigerant estimation logic into an Angular, Java, Quarkus, and PostgreSQL web app supporting GG, Commercial, and Residential calculations, with CI/CD integration for iterative deployment.",
+    img: "/images/test.jpg",
+    tags: ["Angular", "Java", "Springboot", "PostgreSQL"],
+  },
+];
+
+const years = Array.from(new Set(projects.map((p) => p.year))).sort(
+  (a, b) => b - a
+);
+---
+
+<script type="text/javascript">
+  let selectedYear = "all";
+
+  function filterProjects(year) {
+    selectedYear = year;
+
+    const cards = document.querySelectorAll(".project-card");
+    cards.forEach((card) => {
+      card.style.transition = "opacity 0.3s ease";
+      card.style.opacity = 0;
+    });
+
+    setTimeout(() => {
+      cards.forEach((card) => {
+        const show = year === "all" || card.dataset.year == year;
+        card.style.display = show ? "block" : "none";
+        if (show) {
+          card.style.opacity = 0;
+          requestAnimationFrame(() => {
+            card.style.transition = "opacity 0.5s ease";
+            card.style.opacity = 1;
+          });
+        }
+      });
+    }, 300);
+
+    document
+      .querySelectorAll(".menu-link")
+      .forEach((btn) => btn.classList.remove("active"));
+    document.querySelector(`[data-year='${year}']`)?.classList.add("active");
+  }
+</script>
+
+<BaseLayout title="Professional Experiments">
+  <div class="container">
+    <div class="sidebar">
+      <a href="/" class="menu-link"> HOME </a>
+      <div class="sidebar-content">
+        Professional projects I've delivered, driving real results and
+        showcasing my expertise in building robust, scalable software solutions.
+      </div>
+      <a href="/personalProjects" class="menu-link"> PERSONAL </a>
+      <!-- <button class="menu-link" data-year="all" onclick="filterProjects('all')">All</button> -->
+      {
+        years.map((year) => (
+          <button
+            class="menu-link"
+            data-year={year}
+            onclick={`filterProjects('${year}')`}
+          >
+            {year}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="content">
+      <ProjectLines />
+      <h1>PROFESSIONAL EXPERIMENTS</h1>
+      {
+        projects.map((project) => (
+          <div class="project-card" data-year={project.year}>
+            <div class="project-header">
+              <span class="project-year">/{project.year}</span>
+              <h2 class="project-title">{project.title}</h2>
+            </div>
+
+            <div class="project-body">
+              <img src={project.img} class="project-img" alt={project.title} />
+              <div class="project-info">
+                <p class="project-description">{project.description}</p>
+              </div>
+            </div>
+
+            <div class="project-tags">
+              {project.tags.map((tag) => (
+                <span>{tag}</span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

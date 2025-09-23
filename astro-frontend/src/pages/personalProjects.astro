@@ -1,0 +1,110 @@
+---
+import ProjectLines from "../components/toplogyLines/projectLines.astro";
+import BaseLayout from "../layouts/baseLayout.astro";
+import "../styles/components/projectsMain.css";
+
+const projects = [
+  {
+    year: 2025,
+    title: "Portfolio Creation",
+    description:
+      "Developed a highly interactive yet static portfolio using Astro, React, TailwindCSS, Three.js, and simplex-noise, featuring smooth animations, 3D visuals, and a clean design to showcase projects and skills.",
+    img: "/images/test.jpg",
+    tags: ["Astro", "React", "Tailwind", "Three.js"],
+  },
+  {
+    year: 2023,
+    title: "Multi-dimensional Ray-casting Game Engine",
+    description: "Developed a basic 3D engine in Python using ray-casting principles, built a sample game to demonstrate engine capabilities, and designed sprites with Photoshop.",
+    img: "/images/test.jpg",
+    tags: ["React", "Tailwind", "Chart.js"],
+  }
+];
+
+const years = Array.from(new Set(projects.map((p) => p.year))).sort(
+  (a, b) => b - a
+);
+
+---
+<script type="text/javascript">
+  let selectedYear = "all";
+
+  function filterProjects(year) {
+    selectedYear = year;
+
+    const cards = document.querySelectorAll(".project-card");
+    cards.forEach((card) => {
+      card.style.transition = "opacity 0.3s ease";
+      card.style.opacity = 0;
+    });
+
+    setTimeout(() => {
+      cards.forEach((card) => {
+        const show = year === "all" || card.dataset.year == year;
+        card.style.display = show ? "block" : "none";
+        if (show) {
+          card.style.opacity = 0;
+          requestAnimationFrame(() => {
+            card.style.transition = "opacity 0.5s ease";
+            card.style.opacity = 1;
+          });
+        }
+      });
+    }, 300);
+
+    document
+      .querySelectorAll(".menu-link")
+      .forEach((btn) => btn.classList.remove("active"));
+    document.querySelector(`[data-year='${year}']`)?.classList.add("active");
+  }
+</script>
+
+
+<BaseLayout title="Personal Experiments">
+  <div class="container">
+    <div class="sidebar">
+      <a href="/" class="menu-link"> HOME </a>
+      <div class="sidebar-content">
+         Personal projects I've built to experiment, learn, and bring ideas to life—showcasing creativity, problem-solving, and hands-on coding skills.
+      </div>
+      <a href="/professionalProjects" class="menu-link"> PROFESSIONAL </a>
+      
+      {
+        years.map((year) => (
+          <button class="menu-link" data-year={year} onclick={`filterProjects('${year}')`}>
+            {year}
+          </button>
+        ))
+      }
+      <button class="menu-link" data-year="all" onclick="filterProjects('all')">All</button>
+    </div>
+
+    <div class="content">
+      <ProjectLines />
+      <h1>PERSONAL EXPERIMENTS</h1>
+      {
+        projects.map((project) => (
+          <div class="project-card" data-year={project.year}>
+            <div class="project-header">
+              <span class="project-year">/{project.year}</span>
+              <h2 class="project-title">{project.title}</h2>
+            </div>
+
+            <div class="project-body">
+              <img src={project.img} class="project-img" alt={project.title} />
+              <div class="project-info">
+                <p class="project-description">{project.description}</p>
+              </div>
+            </div>
+
+            <div class="project-tags">
+              {project.tags.map((tag) => (
+                <span>{tag}</span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

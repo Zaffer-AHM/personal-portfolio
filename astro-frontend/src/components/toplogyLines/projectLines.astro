@@ -1,0 +1,87 @@
+<canvas id="projects-canvas" class="projects-canvas"></canvas>
+
+<style>
+.projects-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: -1;
+  pointer-events: none;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+.projects-canvas.visible {
+  opacity: 1;
+}
+</style>
+
+<script type="module">
+if (typeof window !== 'undefined') {
+  import("https://cdn.jsdelivr.net/npm/simplex-noise@4.0.1/dist/esm/simplex-noise.js").then(({ createNoise3D }) => {
+    const canvas = document.getElementById("projects-canvas");
+    const ctx = canvas.getContext("2d");
+    const noise3D = createNoise3D();
+
+    let running = true;
+    let frameId;
+    let time = 0;
+    let size = { w: window.innerWidth, h: window.innerHeight };
+    let mouse = { x: -9999, y: -9999 };
+
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      size.w = window.innerWidth;
+      size.h = window.innerHeight;
+      canvas.width = size.w * dpr;
+      canvas.height = size.h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    function draw() {
+      if (!running) return;
+      ctx.clearRect(0, 0, size.w, size.h);
+
+      const lineGap = 60;
+      const lineCount = Math.ceil(size.h / lineGap) + 20;
+      ctx.lineWidth = 0.2;
+      ctx.strokeStyle = "#fff";
+
+      for (let i = 0; i < lineCount; i++) {
+        const yBase = i * lineGap;
+        ctx.beginPath();
+        for (let x = 0; x <= size.w; x += 6) {
+          const noiseVal = noise3D(x * 0.003, yBase * 0.01, time * 0.3);
+          let y = yBase + noiseVal * 35;
+
+          const dx = x - mouse.x;
+          const dy = y - mouse.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          const influence = 400;
+          if (dist < influence) {
+            const strength = (1 - dist / influence) * 30;
+            y += Math.sin(time * 0.5 + dist * 0.05) * strength;
+          }
+
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      time += 0.01;
+      frameId = requestAnimationFrame(draw);
+    }
+
+    canvas.classList.add("visible");
+    draw();
+
+    window.addEventListener("mousemove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener("mouseleave", () => { mouse.x = -9999; mouse.y = -9999; });
+  });
+}
+</script>

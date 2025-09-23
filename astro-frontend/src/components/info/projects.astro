@@ -1,6 +1,28 @@
 ---
-// projects.astro
-import "../../styles/components/projects.css";
+import "../../styles/components/projectsHome.css";
 ---
-<div class="heading"> PROJECTS </div>
 
+<div class="projects-container">
+  <div class="options">
+    <button class="button-link" data-target="/personalProjects">PERSONAL</button>
+    <button class="button-link" data-target="/professionalProjects">PROFESSIONAL</button>
+  </div>
+</div>
+
+<script is:inline>
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll(".button-link");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", e => {
+      e.preventDefault(); // stop instant navigation
+
+      const target = button.dataset.target;
+      if (!target) return;
+
+      // Navigate immediately
+      window.location.href = target;
+    });
+  });
+});
+</script>

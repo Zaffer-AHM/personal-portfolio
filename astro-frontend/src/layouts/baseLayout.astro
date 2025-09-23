@@ -1,15 +1,16 @@
 ---
 const { title = "My Portfolio" } = Astro.props;
+import PageTransition from "../components/effects/pageTransition.astro";
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>{title}</title>
-    <script type="module" src="src/scripts/lenis.js"></script>
-    <script type="module" src="src/scripts/gsap-intro.js"></script>
   </head>
   <body class="bg-gray-950 text-white">
-    <slot />
+    <PageTransition>
+      <slot />
+    </PageTransition>
   </body>
 </html>
