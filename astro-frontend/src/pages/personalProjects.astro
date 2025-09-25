@@ -6,26 +6,38 @@ import "../styles/components/projectsMain.css";
 const projects = [
   {
     year: 2025,
+    title: "Task Tracker - Kanban Style",
+    description:
+      "A Kanban-style task management app featuring draggable task cards, status columns, and progress tracking, with secure user authentication powered by JWT. Built with scalability and clean UI in mind to demonstrate practical full-stack development skills.",
+    img: "/images/test.jpg",
+    tags: ["React", "Java", "Tailwind", "PostgreSQL"],
+    link: "https://github.com/Zaffer-AHM/task-tracker-kanban-style",
+  },
+  {
+    year: 2025,
     title: "Portfolio Creation",
     description:
       "Developed a highly interactive yet static portfolio using Astro, React, TailwindCSS, Three.js, and simplex-noise, featuring smooth animations, 3D visuals, and a clean design to showcase projects and skills.",
     img: "/images/test.jpg",
     tags: ["Astro", "React", "Tailwind", "Three.js"],
+    link: "https://github.com/Zaffer-AHM/personal-portfolio",
   },
   {
     year: 2023,
     title: "Multi-dimensional Ray-casting Game Engine",
-    description: "Developed a basic 3D engine in Python using ray-casting principles, built a sample game to demonstrate engine capabilities, and designed sprites with Photoshop.",
+    description:
+      "Developed a basic 3D engine in Python using ray-casting principles, built a sample game to demonstrate engine capabilities, and designed sprites with Photoshop.",
     img: "/images/test.jpg",
     tags: ["React", "Tailwind", "Chart.js"],
-  }
+    link: "https://github.com/Zaffer-AHM/UG-Final-Project",
+  },
 ];
 
 const years = Array.from(new Set(projects.map((p) => p.year))).sort(
   (a, b) => b - a
 );
-
 ---
+
 <script type="text/javascript">
   let selectedYear = "all";
 
@@ -59,24 +71,30 @@ const years = Array.from(new Set(projects.map((p) => p.year))).sort(
   }
 </script>
 
-
 <BaseLayout title="Personal Experiments">
   <div class="container">
     <div class="sidebar">
       <a href="/" class="menu-link"> HOME </a>
       <div class="sidebar-content">
-         Personal projects I've built to experiment, learn, and bring ideas to life—showcasing creativity, problem-solving, and hands-on coding skills.
+        Personal projects I've built to experiment, learn, and bring ideas to
+        life—showcasing creativity, problem-solving, and hands-on coding skills.
       </div>
       <a href="/professionalProjects" class="menu-link"> PROFESSIONAL </a>
-      
+
       {
         years.map((year) => (
-          <button class="menu-link" data-year={year} onclick={`filterProjects('${year}')`}>
+          <button
+            class="menu-link"
+            data-year={year}
+            onclick={`filterProjects('${year}')`}
+          >
             {year}
           </button>
         ))
       }
-      <button class="menu-link" data-year="all" onclick="filterProjects('all')">All</button>
+      <button class="menu-link" data-year="all" onclick="filterProjects('all')"
+        >All</button
+      >
     </div>
 
     <div class="content">
@@ -94,6 +112,9 @@ const years = Array.from(new Set(projects.map((p) => p.year))).sort(
               <img src={project.img} class="project-img" alt={project.title} />
               <div class="project-info">
                 <p class="project-description">{project.description}</p>
+                <a href={project.link} target="_blank" class="btn-12">
+                  <span>View on GitHub</span>
+                </a>
               </div>
             </div>
 
