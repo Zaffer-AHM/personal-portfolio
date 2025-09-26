@@ -1,9 +1,11 @@
 # personal-portfolio
-uses astro + tailwind css
-will add more details once im done developing the skeleton
+Personal portfolio to showcase my expertise hehe
+portfolio mainly uses:
+- astro
+- react
+- css
 
-extra libraies:
-- lenis
+extra libraies used:
 - simplex-noise
-- three
+- three.js
 - gsap
