@@ -9,7 +9,7 @@ const projects = [
     title: "Task Tracker - Kanban Style",
     description:
       "A Kanban-style task management app featuring draggable task cards, status columns, and progress tracking, with secure user authentication powered by JWT. Built with scalability and clean UI in mind to demonstrate practical full-stack development skills.",
-    img: "/images/test.jpg",
+    img: "/images/personal/tasktracker.png",
     tags: ["React", "Java", "Tailwind", "PostgreSQL"],
     link: "https://github.com/Zaffer-AHM/task-tracker-kanban-style",
   },
@@ -18,7 +18,7 @@ const projects = [
     title: "Portfolio Creation",
     description:
       "Developed a highly interactive yet static portfolio using Astro, React, TailwindCSS, Three.js, and simplex-noise, featuring smooth animations, 3D visuals, and a clean design to showcase projects and skills.",
-    img: "/images/test.jpg",
+    img: "/images/personal/portfolio.png",
     tags: ["Astro", "React", "Tailwind", "Three.js"],
     link: "https://github.com/Zaffer-AHM/personal-portfolio",
   },
@@ -27,7 +27,7 @@ const projects = [
     title: "Multi-dimensional Ray-casting Game Engine",
     description:
       "Developed a basic 3D engine in Python using ray-casting principles, built a sample game to demonstrate engine capabilities, and designed sprites with Photoshop.",
-    img: "/images/test.jpg",
+    img: "/images/personal/doomgame.png",
     tags: ["React", "Tailwind", "Chart.js"],
     link: "https://github.com/Zaffer-AHM/UG-Final-Project",
   },
@@ -39,37 +39,60 @@ const years = Array.from(new Set(projects.map((p) => p.year))).sort(
 ---
 
 <script type="text/javascript">
-  let selectedYear = "all";
+  document.addEventListener("DOMContentLoaded", () => {
+    let selectedYear = "all";
 
-  function filterProjects(year) {
-    selectedYear = year;
+    // Make filterProjects globally accessible
+    window.filterProjects = function (year) {
+      selectedYear = year;
 
-    const cards = document.querySelectorAll(".project-card");
-    cards.forEach((card) => {
-      card.style.transition = "opacity 0.3s ease";
-      card.style.opacity = 0;
-    });
-
-    setTimeout(() => {
+      const cards = document.querySelectorAll(".project-card");
       cards.forEach((card) => {
-        const show = year === "all" || card.dataset.year == year;
-        card.style.display = show ? "block" : "none";
-        if (show) {
-          card.style.opacity = 0;
-          requestAnimationFrame(() => {
-            card.style.transition = "opacity 0.5s ease";
-            card.style.opacity = 1;
-          });
-        }
+        card.style.transition = "opacity 0.3s ease";
+        card.style.opacity = 0;
       });
-    }, 300);
 
-    document
-      .querySelectorAll(".menu-link")
-      .forEach((btn) => btn.classList.remove("active"));
-    document.querySelector(`[data-year='${year}']`)?.classList.add("active");
-  }
+      setTimeout(() => {
+        cards.forEach((card) => {
+          const show = year === "all" || card.dataset.year == year;
+          card.style.display = show ? "block" : "none";
+          if (show) {
+            card.style.opacity = 0;
+            requestAnimationFrame(() => {
+              card.style.transition = "opacity 0.5s ease";
+              card.style.opacity = 1;
+            });
+          }
+        });
+      }, 300);
+
+      document
+        .querySelectorAll(".menu-link")
+        .forEach((btn) => btn.classList.remove("active"));
+      document.querySelector(`[data-year='${year}']`)?.classList.add("active");
+    };
+
+    // Image Preview Overlay
+    const previewOverlay = document.createElement("div");
+    previewOverlay.className = "image-preview-overlay";
+    const previewImg = document.createElement("img");
+    previewOverlay.appendChild(previewImg);
+    document.body.appendChild(previewOverlay);
+
+    document.addEventListener("click", (e) => {
+      // Open preview
+      if (e.target.classList.contains("project-img")) {
+        previewImg.src = e.target.src;
+        previewOverlay.classList.add("active");
+      }
+      // Close preview
+      else if (e.target === previewOverlay) {
+        previewOverlay.classList.remove("active");
+      }
+    });
+  });
 </script>
+
 
 <BaseLayout title="Personal Experiments">
   <div class="container">
@@ -95,6 +118,9 @@ const years = Array.from(new Set(projects.map((p) => p.year))).sort(
       <button class="menu-link" data-year="all" onclick="filterProjects('all')"
         >All</button
       >
+      <div class="sidebar-content-bottom">
+        Projects here contain the same quality a professional one does.
+      </div>
     </div>
 
     <div class="content">

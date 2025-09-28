@@ -9,21 +9,23 @@ const projects = [
     title: "IEC Checklist - File Management System",
     description:
       "Built a modular, scalable web tool with Angular, Java, Spring Boot, and PostgreSQL that allows admins to rename, move, upload, and delete .docx files, integrates PDF previews while preserving original file integrity, implements secure role-based authentication, and improves data access speed by 25% through optimized Java APIs.",
-    img: "/images/test.jpg",
+    img: "/images/professional/checklist.png",
     tags: ["Angular", "Java", "Springboot", "PostgreSQL", "LibreOffice"],
   },
   {
     year: 2025,
     title: "Parts Manual Web Tool",
-    description: "Developed a reliable, high-availability Angular and Java web tool with Spring Boot and PostgreSQL for querying parts by model number, handling 1M+ records efficiently, optimizing queries to reduce response times by 30%, and deploying builds via Maven/Gradle.",
-    img: "/images/test.jpg",
+    description:
+      "Developed a reliable, high-availability Angular and Java web tool with Spring Boot and PostgreSQL for querying parts by model number, handling 1M+ records efficiently, optimizing queries to reduce response times by 30%, and deploying builds via Maven/Gradle.",
+    img: "/images/professional/partsmanual.png",
     tags: ["Angular", "Java", "Springboot", "PostgreSQL"],
   },
   {
     year: 2025,
     title: "CCG Prediction Tool",
-    description: "Created a C# and SQL Server tool that calculates Koax Heating/Cooling conditions, displays PH diagrams, integrates PlateHX calculation functionality, and manages backend data efficiently in SSMS.",
-    img: "/images/test.jpg",
+    description:
+      "Created a C# and SQL Server tool that calculates Koax Heating/Cooling conditions, displays PH diagrams, integrates PlateHX calculation functionality, and manages backend data efficiently in SSMS.",
+    img: "/images/professional/ccg.png",
     tags: ["C#", "SQL Server Management Studio"],
   },
   {
@@ -31,7 +33,7 @@ const projects = [
     title: "A2L Calculator",
     description:
       "Converted Excel-based refrigerant estimation logic into an Angular, Java, Quarkus, and PostgreSQL web app supporting GG, Commercial, and Residential calculations, with CI/CD integration for iterative deployment.",
-    img: "/images/test.jpg",
+    img: "/images/professional/a2l.png",
     tags: ["Angular", "Java", "Springboot", "PostgreSQL"],
   },
 ];
@@ -42,37 +44,60 @@ const years = Array.from(new Set(projects.map((p) => p.year))).sort(
 ---
 
 <script type="text/javascript">
-  let selectedYear = "all";
+  document.addEventListener("DOMContentLoaded", () => {
+    let selectedYear = "all";
 
-  function filterProjects(year) {
-    selectedYear = year;
+    // Make filterProjects globally accessible
+    window.filterProjects = function (year) {
+      selectedYear = year;
 
-    const cards = document.querySelectorAll(".project-card");
-    cards.forEach((card) => {
-      card.style.transition = "opacity 0.3s ease";
-      card.style.opacity = 0;
-    });
-
-    setTimeout(() => {
+      const cards = document.querySelectorAll(".project-card");
       cards.forEach((card) => {
-        const show = year === "all" || card.dataset.year == year;
-        card.style.display = show ? "block" : "none";
-        if (show) {
-          card.style.opacity = 0;
-          requestAnimationFrame(() => {
-            card.style.transition = "opacity 0.5s ease";
-            card.style.opacity = 1;
-          });
-        }
+        card.style.transition = "opacity 0.3s ease";
+        card.style.opacity = 0;
       });
-    }, 300);
 
-    document
-      .querySelectorAll(".menu-link")
-      .forEach((btn) => btn.classList.remove("active"));
-    document.querySelector(`[data-year='${year}']`)?.classList.add("active");
-  }
+      setTimeout(() => {
+        cards.forEach((card) => {
+          const show = year === "all" || card.dataset.year == year;
+          card.style.display = show ? "block" : "none";
+          if (show) {
+            card.style.opacity = 0;
+            requestAnimationFrame(() => {
+              card.style.transition = "opacity 0.5s ease";
+              card.style.opacity = 1;
+            });
+          }
+        });
+      }, 300);
+
+      document
+        .querySelectorAll(".menu-link")
+        .forEach((btn) => btn.classList.remove("active"));
+      document.querySelector(`[data-year='${year}']`)?.classList.add("active");
+    };
+
+    // Image Preview Overlay
+    const previewOverlay = document.createElement("div");
+    previewOverlay.className = "image-preview-overlay";
+    const previewImg = document.createElement("img");
+    previewOverlay.appendChild(previewImg);
+    document.body.appendChild(previewOverlay);
+
+    document.addEventListener("click", (e) => {
+      // Open preview
+      if (e.target.classList.contains("project-img")) {
+        previewImg.src = e.target.src;
+        previewOverlay.classList.add("active");
+      }
+      // Close preview
+      else if (e.target === previewOverlay) {
+        previewOverlay.classList.remove("active");
+      }
+    });
+  });
 </script>
+
 
 <BaseLayout title="Professional Experiments">
   <div class="container">
@@ -83,7 +108,6 @@ const years = Array.from(new Set(projects.map((p) => p.year))).sort(
         showcasing my expertise in building robust, scalable software solutions.
       </div>
       <a href="/personalProjects" class="menu-link"> PERSONAL </a>
-      <!-- <button class="menu-link" data-year="all" onclick="filterProjects('all')">All</button> -->
       {
         years.map((year) => (
           <button
@@ -95,6 +119,10 @@ const years = Array.from(new Set(projects.map((p) => p.year))).sort(
           </button>
         ))
       }
+      <div class="sidebar-content-bottom">
+        <b>Sadly I can't show any demos for these projects because of NDAs
+        from my employers.</b><br />
+      </div>
     </div>
 
     <div class="content">

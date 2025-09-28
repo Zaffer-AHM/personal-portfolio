@@ -1,27 +1,36 @@
 <style>
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: -100%; /* hidden offscreen left */
-    width: 100dvw;
-    height: 100dvh;
-    background: rgb(255, 220, 150);
+  .about-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    transition: left 0.6s ease-in-out;
-    z-index: 50;
-  }
-  .overlay.show {
-    left: 0; /* slide in from left */
-  }
-  .test {
-    font-size: 8rem;
-    font-family: Impact, sans-serif;
-    color: black;
+    align-items: center;     /* center horizontally */
+    justify-content: center; /* center vertically */
     text-align: center;
+    padding: 2rem;
+    height: 100vh;           /* full screen height */
+    box-sizing: border-box;
+  }
+
+  .stats {
+    margin-left: 1.2rem;
   }
 </style>
 
-<div class="test">CONTACT</div>
+
+<div class="contact-container">
+  <div class="heading">CONTACT</div>
+
+  <div class="stats">
+    <button
+      class="btn-12"
+      onclick="window.open('https://www.linkedin.com/in/zaffer-ahm', '_blank')"
+    >
+      <span>LinkedIN</span>
+    </button>
+    <button
+      class="btn-12"
+      onclick="window.open('https://github.com/Zaffer-AHM', '_blank')"
+    >
+      <span>Github</span>
+    </button>
+  </div>
+</div>

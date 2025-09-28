@@ -7,6 +7,9 @@ import MainCube from "./mainCube.jsx";
 export default function Scene() {
   const containerRef = useRef();
 
+  // Boolean flag to toggle main cube
+  const SHOW_MAIN_CUBE = false;
+
   useEffect(() => {
     const container = containerRef.current;
 
@@ -33,25 +36,29 @@ export default function Scene() {
     // Lights
     scene.add(new THREE.AmbientLight("#ffffff", 1));
 
-    // Main Cube
-    const mainCube = MainCube();
-    mainCube.scale.set(MAIN_CUBE_SCALE, MAIN_CUBE_SCALE, MAIN_CUBE_SCALE);
-    scene.add(mainCube);
+    let mainCube, outline;
 
-    // Cube outline (glow effect)
-    const edges = new THREE.EdgesGeometry(mainCube.geometry);
-    const outline = new THREE.LineSegments(
-      edges,
-      new THREE.LineBasicMaterial({
-        color: "#ffffff",
-        transparent: true,
-        opacity: 0.7,
-        blending: THREE.AdditiveBlending,
-        depthTest: false,
-      })
-    );
-    outline.scale.set(1.2, 1.2, 1.2);
-    mainCube.add(outline);
+    if (SHOW_MAIN_CUBE) {
+      // Main Cube
+      mainCube = MainCube();
+      mainCube.scale.set(MAIN_CUBE_SCALE, MAIN_CUBE_SCALE, MAIN_CUBE_SCALE);
+      scene.add(mainCube);
+
+      // Cube outline (glow effect)
+      const edges = new THREE.EdgesGeometry(mainCube.geometry);
+      outline = new THREE.LineSegments(
+        edges,
+        new THREE.LineBasicMaterial({
+          color: "#ffffff",
+          transparent: true,
+          opacity: 0.7,
+          blending: THREE.AdditiveBlending,
+          depthTest: false,
+        })
+      );
+      outline.scale.set(1.2, 1.2, 1.2);
+      mainCube.add(outline);
+    }
 
     // Main text
     const mainText = "ZAFFER AHMED";
@@ -83,7 +90,12 @@ export default function Scene() {
     gsap.to(mainTextMaterial, { opacity: 1, duration: 2 });
 
     // Subtext
-    const messages = ["full-stack dev.", "java user.", "software engineer.", "click top right to navigate faster."];
+    const messages = [
+      "full-stack dev.",
+      "java user.",
+      "software engineer.",
+      "click top right to navigate faster.",
+    ];
     let currentMessage = 0;
 
     const subTextCanvas = document.createElement("canvas");
@@ -112,11 +124,7 @@ export default function Scene() {
       subCtx.font = "bold 60px Arial";
       subCtx.textAlign = "center";
       subCtx.textBaseline = "middle";
-      subCtx.fillText(
-        messages[currentMessage],
-        subTextCanvas.width / 2,
-        subTextCanvas.height / 2
-      );
+      subCtx.fillText(messages[currentMessage], subTextCanvas.width / 2, subTextCanvas.height / 2);
       subTextTexture.needsUpdate = true;
 
       gsap.fromTo(
@@ -166,42 +174,44 @@ export default function Scene() {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Rotate cube
-      mainCube.rotation.x += 0.01;
-      mainCube.rotation.y += 0.01;
+      if (SHOW_MAIN_CUBE) {
+        // Rotate cube
+        mainCube.rotation.x += 0.01;
+        mainCube.rotation.y += 0.01;
 
-      // Pulse outline
-      const outlineScale = 1.2 + Math.sin(Date.now() * 0.005) * 0.03;
-      outline.scale.set(outlineScale, outlineScale, outlineScale);
+        // Pulse outline
+        const outlineScale = 1.2 + Math.sin(Date.now() * 0.005) * 0.03;
+        outline.scale.set(outlineScale, outlineScale, outlineScale);
 
-      // Raycast hover effect
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObject(mainCube);
+        // Raycast hover effect
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObject(mainCube);
 
-      if (intersects.length > 0) {
-        gsap.to(mainCube.scale, {
-          x: MAIN_CUBE_SCALE * 1.3,
-          y: MAIN_CUBE_SCALE * 1.3,
-          z: MAIN_CUBE_SCALE * 1.3,
-          duration: 0.3,
-        });
-        mainCube.material.emissive = new THREE.Color("#222221");
-        mainCube.material.emissiveIntensity = 0.7;
-        gsap.to(outline.scale, { x: 1.35, y: 1.35, z: 1.35, duration: 0.3 });
-      } else {
-        gsap.to(mainCube.scale, {
-          x: MAIN_CUBE_SCALE,
-          y: MAIN_CUBE_SCALE,
-          z: MAIN_CUBE_SCALE,
-          duration: 0.3,
-        });
-        mainCube.material.emissive = new THREE.Color("#000000");
-        gsap.to(outline.scale, {
-          x: outlineScale,
-          y: outlineScale,
-          z: outlineScale,
-          duration: 0.3,
-        });
+        if (intersects.length > 0) {
+          gsap.to(mainCube.scale, {
+            x: MAIN_CUBE_SCALE * 1.3,
+            y: MAIN_CUBE_SCALE * 1.3,
+            z: MAIN_CUBE_SCALE * 1.3,
+            duration: 0.3,
+          });
+          mainCube.material.emissive = new THREE.Color("#222221");
+          mainCube.material.emissiveIntensity = 0.7;
+          gsap.to(outline.scale, { x: 1.35, y: 1.35, z: 1.35, duration: 0.3 });
+        } else {
+          gsap.to(mainCube.scale, {
+            x: MAIN_CUBE_SCALE,
+            y: MAIN_CUBE_SCALE,
+            z: MAIN_CUBE_SCALE,
+            duration: 0.3,
+          });
+          mainCube.material.emissive = new THREE.Color("#000000");
+          gsap.to(outline.scale, {
+            x: outlineScale,
+            y: outlineScale,
+            z: outlineScale,
+            duration: 0.3,
+          });
+        }
       }
 
       renderer.render(scene, camera);
