@@ -1,0 +1,639 @@
+.developer-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.developer-background {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0;
+}
+
+.developer-background > div,
+.developer-background canvas {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.back-button {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 100;
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 1rem 3rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* Container Layout - Full width without sidebar */
+.dev-content-full {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 100vh;
+  padding: 6rem 4rem 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  scroll-behavior: smooth;
+}
+
+.page-title {
+  font-family: Impact, sans-serif;
+  font-size: 8rem !important;
+  font-weight: normal !important;
+  color: #fff;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  text-align: center;
+}
+
+/* Introduction Section */
+.intro-section {
+  width: 100%;
+  max-width: 1400px;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.intro-text {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0 0 2.5rem 0;
+  letter-spacing: 0.5px;
+}
+
+.tech-stack-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.tech-icon-item {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 3rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.tech-icon-item:hover {
+  color: #fff;
+  transform: translateY(-5px) scale(1.1);
+}
+
+.custom-tech-text {
+  font-family: Impact, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Project Sections */
+.project-section {
+  width: 100%;
+  max-width: 1600px;
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  padding: 1rem 0;
+  transition: all 0.3s ease;
+}
+
+.section-header:hover .section-title {
+  color: rgba(255, 255, 255, 1);
+}
+
+.section-title {
+  font-family: Impact, sans-serif;
+  font-size: 3rem;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 1rem;
+  flex: 1;
+  transition: color 0.3s ease;
+}
+
+.section-title-static {
+  font-family: Impact, sans-serif;
+  font-size: 3rem;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 3rem 0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 1rem;
+}
+
+.collapse-icon {
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 300;
+  line-height: 1;
+  transition: transform 0.3s ease, color 0.3s ease;
+  margin-left: 1rem;
+}
+
+.section-header:hover .collapse-icon {
+  color: #fff;
+}
+
+.section-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.section-content.open {
+  max-height: 10000px;
+  opacity: 1;
+  padding-top: 2rem;
+}
+
+/* Projects Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: auto;
+  gap: 2rem;
+  width: 100%;
+  margin-bottom: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Show More Button */
+.show-more-button {
+  display: block;
+  margin: 3rem auto 0;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 1rem 3rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 50;
+}
+
+.show-more-button:hover {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Card Grid Layout for All Projects */
+.section-content-grid {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.3s ease;
+  opacity: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.section-content-grid.open {
+  max-height: 10000px;
+  opacity: 1;
+  padding-top: 2rem;
+}
+
+/* Fade-in Animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Compact Project Cards */
+.project-card-compact {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 450px;
+  width: 85%;
+}
+
+.project-card-compact:hover {
+  background: rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.card-header-compact {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.card-title {
+  font-family: Impact, sans-serif;
+  font-size: 1.65rem;
+  font-weight: normal;
+  color: #fff;
+  margin: 0;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.personal-project-badge {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(99, 102, 241, 0.3));
+  color: #c4b5fd;
+  font-family: Impact, sans-serif;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  white-space: nowrap;
+  border: 1px solid rgba(139, 92, 246, 0.5);
+}
+
+.card-description {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  margin: 0;
+  flex: 1;
+}
+
+.github-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+}
+
+.github-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+.card-tech-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tech-label {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.tech-label:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.card-image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.card-img:hover {
+  transform: scale(1.1);
+}
+
+.card-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  backdrop-filter: blur(10px);
+}
+
+.card-badge.professional {
+  background: rgba(59, 130, 246, 0.85);
+  color: #fff;
+  border: 1px solid rgba(59, 130, 246, 1);
+}
+
+.card-badge.personal {
+  background: rgba(168, 85, 247, 0.85);
+  color: #fff;
+  border: 1px solid rgba(168, 85, 247, 1);
+}
+
+.card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
+}
+
+.card-year {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-tech-icons {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tech-icon {
+  font-size: 1.8rem;
+  transition: transform 0.2s ease;
+  cursor: help;
+}
+
+.tech-icon:hover {
+  transform: scale(1.2);
+}
+
+.card-link {
+  display: inline-block;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.card-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+}
+
+/* Project Cards */
+.project-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.project-year {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.project-title-card {
+  font-family: Impact, sans-serif;
+  font-size: 2rem;
+  font-weight: normal;
+  color: #fff;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  flex: 1;
+}
+
+.project-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+.project-badge.professional {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.project-badge.personal {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.project-body {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.project-img:hover {
+  transform: scale(1.05);
+}
+
+.project-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-description {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.github-link {
+  display: inline-block;
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.8rem 2rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+
+.github-link:hover {
+  background: #fff;
+  color: #000;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.project-tags span {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+/* Image Preview Overlay */
+.image-preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.image-preview-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* Remove old sidebar styles */
+.dev-container,
+.dev-sidebar,
+.menu-link,
+.sidebar-note,
+.dev-content {
+  display: none;
+}
