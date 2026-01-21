@@ -92,17 +92,17 @@ const personalProjects = [
         type: "personal",
         featured: true,
     },
-    {
-        year: 2025,
-        title: "Portfolio Creation",
-        description:
-            "Developed a highly interactive portfolio using Astro, React, TailwindCSS, Three.js, and simplex-noise. Features smooth animations, 3D visuals, and a clean design to showcase projects and skills.",
-        img: "/images/personal/portfolio.png",
-        tags: ["Astro", "React", "Tailwind", "Three.js"],
-        link: "https://github.com/Zaffer-AHM/personal-portfolio",
-        type: "personal",
-        featured: true,
-    },
+    // {
+    //     year: 2025,
+    //     title: "Portfolio Creation",
+    //     description:
+    //         "Developed a highly interactive portfolio using Astro, React, TailwindCSS, Three.js, and simplex-noise. Features smooth animations, 3D visuals, and a clean design to showcase projects and skills.",
+    //     img: "/images/personal/portfolio.png",
+    //     tags: ["Astro", "React", "Tailwind", "Three.js"],
+    //     link: "https://github.com/Zaffer-AHM/personal-portfolio",
+    //     type: "personal",
+    //     featured: true,
+    // },
     {
         year: 2023,
         title: "Multi-dimensional Ray-casting Game Engine",
