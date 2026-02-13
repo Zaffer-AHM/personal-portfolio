@@ -2,74 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DeveloperPage.css';
 import Beams from '../components/BeamBackground.jsx';
-import { FaReact, FaAngular, FaJava, FaPython, FaDatabase, FaDocker } from 'react-icons/fa';
-import { SiSpringboot, SiPostgresql, SiTailwindcss, SiThreedotjs } from 'react-icons/si';
+import { FaReact, FaAngular, FaJava, FaPython, FaDatabase, FaDocker, FaAws } from 'react-icons/fa';
+import { SiSpringboot, SiPostgresql, SiTailwindcss, SiThreedotjs, SiFastapi } from 'react-icons/si';
 import { TbBrandAstro } from 'react-icons/tb';
 
-const professionalProjects = [
-    {
-        year: 2025,
-        title: "IEC Checklist - File Management System",
-        description:
-            "Built a modular web tool with Angular, Java, Spring Boot, and PostgreSQL for managing .docx files with PDF preview integration. Implemented secure role-based authentication and improved data access speed by 25% through optimized APIs.",
-        img: "/images/professional/checklist.png",
-        tags: ["Angular", "Java", "Springboot", "PostgreSQL", "LibreOffice"],
-        type: "professional",
-        featured: true,
-    },
-    {
-        year: 2025,
-        title: "HR Dashboard",
-        description:
-            "Developed a web-based dashboard to streamline HR workflow, replacing Excel-based logs. Implemented role-based access with RESTful APIs, allowing the Head of HR to view comprehensive work summaries using Chart.js.",
-        img: "/images/professional/hr.png",
-        tags: ["React", "Java", "Springboot", "PostgreSQL", "Chart.js"],
-        type: "professional",
-        featured: false,
-    },
-    {
-        year: 2025,
-        title: "Parts Manual Web Tool",
-        description:
-            "Developed a high-availability web tool with Angular, Java, Spring Boot, and PostgreSQL for querying parts by model number. Handles 1M+ records efficiently with optimized queries that reduced response times by 30%.",
-        img: "/images/professional/partsmanual.png",
-        tags: ["Angular", "Java", "Springboot", "PostgreSQL"],
-        type: "professional",
-        featured: false,
-    },
-    {
-        year: 2025,
-        title: "AI Image Recognition for Floor Planner",
-        description:
-            "Trained YOLO-V8m model with 60+ large-scale floor plans for accurate element detection. Developed FastAPI endpoints and a web interface for importing images and receiving annotated results.",
-        img: "/images/professional/floorplanner.png",
-        tags: ["Python", "FastAPI", "React", "YOLO-V8m"],
-        type: "professional",
-        featured: false,
-    },
-    {
-        year: 2025,
-        title: "CCG Prediction Tool",
-        description:
-            "Created a C# and SQL Server tool that calculates Koax Heating/Cooling conditions and displays PH diagrams. Integrated PlateHX calculation functionality with efficient backend data management.",
-        img: "/images/professional/ccg.png",
-        tags: ["C#", "SQL Server Management Studio"],
-        type: "professional",
-        featured: false,
-    },
-    {
-        year: 2025,
-        title: "A2L Calculator",
-        description:
-            "Converted Excel-based refrigerant estimation logic into an Angular, Java, Quarkus, and PostgreSQL web app. Supports GG, Commercial, and Residential calculations with CI/CD integration.",
-        img: "/images/professional/a2l.png",
-        tags: ["Angular", "Java", "Springboot", "PostgreSQL"],
-        type: "professional",
-        featured: false,
-    },
-];
-
-const personalProjects = [
+const allProjects = [
     {
         year: 2026,
         title: "AI Code Assistant",
@@ -78,7 +15,7 @@ const personalProjects = [
         img: "/images/personal/aicode.png",
         tags: ["Python", "FastAPI", "React", "Ollama", "DeepSeek"],
         link: "https://github.com/Zaffer-AHM/ai-assistant",
-        type: "personal",
+        category: "Personal",
         featured: false,
     },
     {
@@ -89,8 +26,74 @@ const personalProjects = [
         img: "/images/personal/tasktracker.png",
         tags: ["React", "Java", "Tailwind", "PostgreSQL"],
         link: "https://github.com/Zaffer-AHM/task-tracker-kanban-style",
-        type: "personal",
+        category: "Personal",
         featured: true,
+    },
+    {
+        year: 2025,
+        title: "AI Image Recognition for Floor Planner",
+        description:
+            "Trained YOLO-V8m model with 60+ large-scale floor plans for accurate element detection. Developed FastAPI endpoints and a web interface for importing images and receiving annotated results.",
+        img: "/images/professional/floorplanner.png",
+        tags: ["Python", "FastAPI", "React", "YOLO-V8m"],
+        category: "Professional",
+        company: "Saazvat",
+        featured: false,
+    },
+    {
+        year: 2025,
+        title: "HR Dashboard",
+        description:
+            "Developed a web-based dashboard to streamline HR workflow, replacing Excel-based logs. Implemented role-based access with RESTful APIs, allowing the Head of HR to view comprehensive work summaries using Chart.js.",
+        img: "/images/professional/hr.png",
+        tags: ["React", "Java", "Springboot", "PostgreSQL", "Chart.js"],
+        category: "Professional",
+        company: "Saazvat",
+        featured: false,
+    },
+    {
+        year: 2025,
+        title: "Parts Manual Web Tool",
+        description:
+            "Developed a high-availability web tool with Angular, Java, Spring Boot, and PostgreSQL for querying parts by model number. Handles 1M+ records efficiently with optimized queries that reduced response times by 30%.",
+        img: "/images/professional/partsmanual.png",
+        tags: ["Angular", "Java", "Springboot", "PostgreSQL"],
+        category: "Professional",
+        company: "Saazvat",
+        featured: false,
+    },
+    {
+        year: 2025,
+        title: "IEC Checklist - File Management System",
+        description:
+            "Built a modular web tool with Angular, Java, Spring Boot, and PostgreSQL for managing .docx files with PDF preview integration. Implemented secure role-based authentication and improved data access speed by 25% through optimized APIs.",
+        img: "/images/professional/checklist.png",
+        tags: ["Angular", "Java", "Springboot", "PostgreSQL", "LibreOffice"],
+        category: "Professional",
+        company: "Saazvat",
+        featured: true,
+    },
+    {
+        year: 2025,
+        title: "CCG Prediction Tool",
+        description:
+            "Created a C# and SQL Server tool that calculates Koax Heating/Cooling conditions and displays PH diagrams. Integrated PlateHX calculation functionality with efficient backend data management.",
+        img: "/images/professional/ccg.png",
+        tags: ["C#", "SQL Server Management Studio"],
+        category: "Professional",
+        company: "Saazvat",
+        featured: false,
+    },
+    {
+        year: 2025,
+        title: "A2L Calculator",
+        description:
+            "Converted Excel-based refrigerant estimation logic into an Angular, Java, Quarkus, and PostgreSQL web app. Supports GG, Commercial, and Residential calculations with CI/CD integration.",
+        img: "/images/professional/a2l.png",
+        tags: ["Angular", "Java", "Springboot", "PostgreSQL"],
+        category: "Professional",
+        company: "Saazvat",
+        featured: false,
     },
     // {
     //     year: 2025,
@@ -100,7 +103,7 @@ const personalProjects = [
     //     img: "/images/personal/portfolio.png",
     //     tags: ["Astro", "React", "Tailwind", "Three.js"],
     //     link: "https://github.com/Zaffer-AHM/personal-portfolio",
-    //     type: "personal",
+    //     category: "Personal",
     //     featured: true,
     // },
     {
@@ -111,38 +114,26 @@ const personalProjects = [
         img: "/images/personal/doomgame.png",
         tags: ["Python"],
         link: "https://github.com/Zaffer-AHM/UG-Final-Project",
-        type: "personal",
+        category: "College",
         featured: false,
     },
 ];
-
-const allProjects = [...personalProjects, ...professionalProjects];
-const featuredProjects = allProjects.filter(p => p.featured);
-
-// Tech stack icon mapping
-const techIcons = {
-    'React': '⚛️',
-    'Angular': '🅰️',
-    'Astro': '🚀',
-    'Java': '☕',
-    'Springboot': '🍃',
-    'PostgreSQL': '🐘',
-    'C#': '#️⃣',
-    'Python': '🐍',
-    'Tailwind': '🎨',
-    'Three.js': '🎲',
-    'LibreOffice': '📄',
-    'SQL Server Management Studio': '💾',
-    'Quarkus': '⚡'
-}; // not using this no more
 
 const DeveloperPage = () => {
     const navigate = useNavigate();
     const [previewImage, setPreviewImage] = useState(null);
     const [showAll, setShowAll] = useState(false);
+    const [isFadingOut, setIsFadingOut] = useState(false);
     const cardRefs = useRef([]);
     
     const visibleProjects = showAll ? allProjects : allProjects.slice(0, 3);
+
+    const handleBackToHome = () => {
+        setIsFadingOut(true);
+        setTimeout(() => {
+            navigate('/');
+        }, 500);
+    };
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -171,7 +162,7 @@ const DeveloperPage = () => {
     }, [visibleProjects]);
 
     return (
-        <div className="developer-page">
+        <div className={`developer-page ${isFadingOut ? 'fade-out' : ''}`}>
             {/* Background layer */}
             <div className="developer-background">
                 <Beams
@@ -187,7 +178,7 @@ const DeveloperPage = () => {
             </div>
 
             {/* Back button */}
-            <button className="back-button" onClick={() => navigate('/')}>
+            <button className="back-button" onClick={handleBackToHome}>
                 Back to Home
             </button>
 
@@ -198,18 +189,18 @@ const DeveloperPage = () => {
                 {/* Introduction Text */}
                 <div className="intro-section">
                     <p className="intro-text">
-                        Hi! I'm Zaffer. I have been working as a software engineer for over a year, primarily focusing on full-stack web development using Java and React. I enjoy building and planning scalable systems that solve real-world problems. I have a passion for all tech related things and am actively looking to learn new technologies and opportunities.
+                        Hi! I'm Zaffer. I have been working as a software engineer for 2+ years, primarily focusing on backend development using Java and Python. I enjoy designing scalable systems and crafting clean and reliable APIs. I have a passion for all tech related things and am actively refining my technical skills.
                     </p>
                     <div className="tech-stack-icons">
                         <div className="tech-icon-item" title="React">
                             <FaReact />
                         </div>
-                        <div className="tech-icon-item" title="Angular">
+                        {/* <div className="tech-icon-item" title="Angular">
                             <FaAngular />
                         </div>
                         <div className="tech-icon-item" title="TailwindCSS">
                             <SiTailwindcss />
-                        </div>
+                        </div> */}
                         <div className="tech-icon-item" title="Java">
                             <FaJava />
                         </div>
@@ -219,14 +210,20 @@ const DeveloperPage = () => {
                         <div className="tech-icon-item" title="Python">
                             <FaPython />
                         </div>
+                        <div className="tech-icon-item" title="FastAPI">
+                            <SiFastapi />
+                        </div>
                         <div className="tech-icon-item" title="PostgreSQL">
                             <SiPostgresql />
                         </div>
-                        <div className="tech-icon-item" title="SQL Server">
+                        {/* <div className="tech-icon-item" title="SQL Server">
                             <FaDatabase />
-                        </div>
+                        </div> */}
                         <div className="tech-icon-item" title="Docker">
                             <FaDocker />
+                        </div>
+                        <div className="tech-icon-item" title="AWS">
+                            <FaAws />
                         </div>
                     </div>
                 </div>
@@ -244,8 +241,14 @@ const DeveloperPage = () => {
                             >
                                 <div className="card-header-compact">
                                     <h3 className="card-title">{project.title}</h3>
-                                    {project.type === 'personal' && (
-                                        <span className="personal-project-badge">Personal Project</span>
+                                    {project.category === 'Professional' ? (
+                                        <span className="professional-project-badge">
+                                            {project.company}
+                                        </span>
+                                    ) : (
+                                        <span className={`${project.category.toLowerCase()}-project-badge`}>
+                                            {project.category}
+                                        </span>
                                     )}
                                 </div>
                                 

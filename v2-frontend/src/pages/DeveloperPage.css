@@ -10,6 +10,19 @@
   overflow-x: hidden;
 }
 
+.developer-page.fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .developer-background {
   position: fixed !important;
   top: 0;
@@ -303,18 +316,46 @@
   flex: 1;
 }
 
+.professional-project-badge {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.3));
+  color: #fca5a5;
+  font-family: Impact, sans-serif;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  white-space: nowrap;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
 .personal-project-badge {
   background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(99, 102, 241, 0.3));
   color: #c4b5fd;
   font-family: Impact, sans-serif;
-  padding: 0.35rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.7rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
   font-weight: normal;
   text-transform: uppercase;
   letter-spacing: 0.05rem;
   white-space: nowrap;
   border: 1px solid rgba(139, 92, 246, 0.5);
+}
+
+.college-project-badge {
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.3), rgba(202, 138, 4, 0.3));
+  color: #fde047;
+  font-family: Impact, sans-serif;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  white-space: nowrap;
+  border: 1px solid rgba(234, 179, 8, 0.5);
 }
 
 .card-description {

@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CreativePage.css';
 import PixelSnow from '../components/PixelSnowBackground.jsx';
 
 const CreativePage = () => {
     const navigate = useNavigate();
+    const [isFadingOut, setIsFadingOut] = useState(false);
+
+    const handleBackToHome = () => {
+        setIsFadingOut(true);
+        setTimeout(() => {
+            navigate('/');
+        }, 500);
+    };
     
     return (
-        <div className="creative-page">
+        <div className={`creative-page ${isFadingOut ? 'fade-out' : ''}`}>
             {/* Background layer */}
             <div className="creative-background">
                 <PixelSnow
@@ -29,7 +37,7 @@ const CreativePage = () => {
             <div className="page-content">
                 <h1 className="page-title">CREATIVE PORTFOLIO</h1>
                 <p className="page-description">Work in Progress</p>
-                <button className="back-button" onClick={() => navigate('/')}>
+                <button className="back-button" onClick={handleBackToHome}>
                     Back to Home
                 </button>
             </div>
